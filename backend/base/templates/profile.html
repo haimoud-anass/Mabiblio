@@ -1,0 +1,321 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Profil - Bibliothèque Municipale</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header (identique à booklist.html) */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 50px;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--secondary-color);
+        }
+
+        .user-actions .btn {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-login {
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+        }
+
+        .btn-register {
+            background-color: var(--secondary-color);
+            border: 1px solid var(--secondary-color);
+            color: white;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .profile-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        .profile-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .profile-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .user-info {
+            margin-bottom: 2rem;
+        }
+
+        .user-info p {
+            margin-bottom: 0.5rem;
+        }
+
+        .borrowed-books h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .book-list {
+            list-style: none;
+        }
+
+        .book-list li {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .book-list li:last-child {
+            border-bottom: none;
+        }
+
+        .book-info a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .book-info a:hover {
+            text-decoration: underline;
+        }
+
+        .book-actions .btn {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .btn-return {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+        }
+
+        .no-books {
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Footer (identique à booklist.html) */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 3rem 0 0;
+            margin-top: 4rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1.5rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .book-list li {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="https://media.istockphoto.com/id/1270155083/fr/vectoriel/vecteur-de-conception-de-logo-e-book-bleu-signe-du-symbole-dic%C3%B4ne-de-biblioth%C3%A8que.jpg?s=612x612&w=0&k=20&c=V7xinjCe1H8lHCUod4Dznxz1CXKj7lz5XNCi7y0-jsY=" alt="Logo Bibliothèque">
+                <h1>Bibliothèque Municipale</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'home' %}">Accueil</a></li>
+                    <li><a href="{% url 'books' %}">Catalogue</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Événements</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="user-actions">
+                {% if user.is_authenticated %}
+                    <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-login">Déconnexion</button>
+                    </form>
+                    <a href="{% url 'profile' %}" class="btn btn-register">Mon compte</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-login">Connexion</a>
+                    <a href="{% url 'register' %}" class="btn btn-register">Inscription</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="profile-container">
+            <div class="profile-header">
+                <h1>Mon Profil</h1>
+                <p>Bienvenue dans votre espace personnel</p>
+            </div>
+            
+            <div class="user-info">
+                <h2>Informations personnelles</h2>
+                <p><strong>Nom d'utilisateur:</strong> {{ user.username }}</p>
+                <p><strong>Email:</strong> {{ user.email|default:"Non renseigné" }}</p>
+            </div>
+            
+            <div class="borrowed-books">
+                <h2>Mes livres empruntés</h2>
+                
+                {% if user.userprofile.borrowed_books.all %}
+                    <ul class="book-list">
+                        {% for book in user.userprofile.borrowed_books.all %}
+                            <li>
+                                <div class="book-info">
+                                    <a href="{% url 'book_detail' book.id %}">{{ book.title }}</a>
+                                    <p>par {{ book.author }}</p>
+                                </div>
+                                <div class="book-actions">
+                                    <button class="btn btn-return">Retourner</button>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="no-books">Vous n'avez actuellement aucun livre emprunté.</p>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Bibliothèque </h3>
+                <p>123 Rue des Livres<br>75000 Paris<br>Tél: 01 23 45 67 89</p>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Horaires</h3>
+                <ul>
+                    <li><strong>Lundi:</strong> 14h-18h</li>
+                    <li><strong>Mardi-Vendredi:</strong> 10h-18h</li>
+                    <li><strong>Samedi:</strong> 10h-17h</li>
+                    <li><strong>Dimanche:</strong> Fermé</li>
+                </ul>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Bibliothèque EL HOUWARI - Tous droits réservés</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

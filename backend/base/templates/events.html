@@ -1,0 +1,362 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Événements - Bibliothèque Municipale</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header (identique aux autres pages) */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 50px;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--secondary-color);
+        }
+
+        .user-actions .btn {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-login {
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+        }
+
+        .btn-register {
+            background-color: var(--secondary-color);
+            border: 1px solid var(--secondary-color);
+            color: white;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Events List */
+        .events-list {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .event-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: row;
+        }
+
+        .event-image {
+            flex: 0 0 300px;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .event-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .event-image .fas {
+            font-size: 3rem;
+            color: #ccc;
+        }
+
+        .event-details {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .event-date {
+            color: var(--secondary-color);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .event-location {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .event-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .event-link {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .event-link:hover {
+            background-color: #2980b9;
+        }
+
+        .featured-badge {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        /* Footer (identique aux autres pages) */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 3rem 0 0;
+            margin-top: 4rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1.5rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .event-card {
+                flex-direction: column;
+            }
+
+            .event-image {
+                flex: 0 0 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="https://media.istockphoto.com/id/1270155083/fr/vectoriel/vecteur-de-conception-de-logo-e-book-bleu-signe-du-symbole-dic%C3%B4ne-de-biblioth%C3%A8que.jpg?s=612x612&w=0&k=20&c=V7xinjCe1H8lHCUod4Dznxz1CXKj7lz5XNCi7y0-jsY=" alt="Logo Bibliothèque">
+                <h1>Bibliothèque Municipale</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'home' %}">Accueil</a></li>
+                    <li><a href="{% url 'books' %}">Catalogue</a></li>
+                    <li><a href="{% url 'services' %}">Services</a></li>
+                    <li><a href="{% url 'events' %}" class="active">Événements</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="user-actions">
+                {% if user.is_authenticated %}
+                    <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-login">Déconnexion</button>
+                    </form>
+                    <a href="{% url 'profile' %}" class="btn btn-register">Mon compte</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-login">Connexion</a>
+                    <a href="{% url 'register' %}" class="btn btn-register">Inscription</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="page-header">
+            <h1>Événements à venir</h1>
+            <p>Découvrez tous les événements organisés par notre bibliothèque. Rencontres d'auteurs, ateliers, lectures et bien plus encore.</p>
+        </div>
+        
+        <div class="events-list">
+            {% for event in events %}
+                <div class="event-card">
+                    <div class="event-image">
+                        {% if event.image %}
+                            <img src="{{ event.image.url }}" alt="{{ event.title }}">
+                        {% else %}
+                            <i class="fas fa-calendar-alt"></i>
+                        {% endif %}
+                    </div>
+                    <div class="event-details">
+                        <div class="event-date">{{ event.date|date:"l d F Y à H:i" }}</div>
+                        <h3>
+                            {{ event.title }}
+                            {% if event.is_featured %}
+                                <span class="featured-badge">À ne pas manquer</span>
+                            {% endif %}
+                        </h3>
+                        <div class="event-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>{{ event.location }}</span>
+                        </div>
+                        <div class="event-description">
+                            {{ event.description|truncatewords:30 }}
+                        </div>
+                        <a href="{% url 'event_detail' event.id %}" class="event-link">En savoir plus</a>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="no-events">
+                    <p>Aucun événement n'est prévu pour le moment.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Bibliothèque Municipale</h3>
+                <p>123 Rue des Livres<br>75000 Paris<br>Tél: 01 23 45 67 89</p>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Horaires</h3>
+                <ul>
+                    <li><strong>Lundi:</strong> 14h-18h</li>
+                    <li><strong>Mardi-Vendredi:</strong> 10h-18h</li>
+                    <li><strong>Samedi:</strong> 10h-17h</li>
+                    <li><strong>Dimanche:</strong> Fermé</li>
+                </ul>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Bibliothèque Municipale - Tous droits réservés</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+<!-- Fin du fichier event.html -->
